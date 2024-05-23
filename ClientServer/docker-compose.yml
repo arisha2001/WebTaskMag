@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  blazorclientserverserver:
+    image: blazorclientserverserver
+    depends_on:
+      - "mongodb"
+    build:
+      context: .
+      dockerfile: Server/Dockerfile
+    ports:
+      - 4080:80
+      - 4443:443
+  blazorclientserverclient:
+    image: blazorclientserverclient
+    depends_on:
+      - "mongodb"
+    build:
+      context: .
+      dockerfile: Client/Dockerfile
+    ports:
+      - 5080:80
+      - 5443:443
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: "12345"
+        MONGO_INITDB_DATABASE: clients
+    ports:
+        - 27017:27017
+    volumes:
+        - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
