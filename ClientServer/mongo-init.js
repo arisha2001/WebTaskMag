@@ -14,4 +14,4 @@ db.createUser(
 db = new Mongo().getDB("clients");
 
 db.createCollection('clients_info', { capped: false });
-db.clients_info.insert( { name: "aina", email: "email", password: "password" } );
+db.clients_info.insert( { Name: "arina", Email: "email", Password: "password" } );

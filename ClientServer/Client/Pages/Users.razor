@@ -39,10 +39,10 @@ else
                     <td>@user.Email</td>
                     <td>@user.Password</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" @onclick="@(()=>GetUser(@user.Id))">Edit</button>
+                        <button class="btn btn-sm btn-primary" @onclick="@(GetUser(@user.Id))">Edit</button>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-primary" @onclick="@(()=>DeleteUser(@user.Id))">Delete</button>
+                        <button class="btn btn-sm btn-primary" @onclick="@(DeleteUser(@user.Id))">Delete</button>
                     </td>
                 </tr>
             }
@@ -61,25 +61,24 @@ else
         users = await Http.GetFromJsonAsync<User[]>("api/user");
     }
     private async Task DeleteUser(string id){
-        await Http.DeleteAsync("api/user/"+id);
+        await Http.DeleteAsync("api/user/" + id);
         await OnInitializedAsync();
     }
     private async Task GetUser(string id){
-        newUser = await Http.GetFromJsonAsync<User>("api/user/"+id);
+        newUser = await Http.GetFromJsonAsync<User>("api/user/" + id);
         edit = true;
     }
     private async Task SubmitUser(){
-        if(edit == false){
-            await Http.PostAsJsonAsync<User>("api/user",newUser);
+        if (edit == false){
+            await Http.PostAsJsonAsync<User>("api/user", newUser);
             await OnInitializedAsync();
             newUser = new User();
-
-        }else{
-            await Http.PutAsJsonAsync<User>("api/user/"+newUser.Id, newUser);
+        } 
+        else {
+            await Http.PutAsJsonAsync<User>("api/user/" + newUser.Id, newUser);
             newUser = new User();
             edit = false;
             await OnInitializedAsync();
         }
     }
-
 }

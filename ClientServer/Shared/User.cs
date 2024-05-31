@@ -9,12 +9,12 @@ namespace ClientServer.Shared
         public string Id { get; set; }
 
         [BsonElement]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
 
         [BsonElement]
-        public string Email { get; set; } = null!;
+        public string Email { get; set; }
     
         [BsonElement]
-        public string Password { get; set; } = null!;
+        public string Password { get; set; }
     }
 }

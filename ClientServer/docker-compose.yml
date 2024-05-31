@@ -5,6 +5,7 @@ services:
     image: blazorclientserverserver
     depends_on:
       - "mongodb"
+      - "rabbitmq"
     build:
       context: .
       dockerfile: Server/Dockerfile
@@ -15,6 +16,7 @@ services:
     image: blazorclientserverclient
     depends_on:
       - "mongodb"
+      - "rabbitmq"
     build:
       context: .
       dockerfile: Client/Dockerfile
@@ -30,7 +32,27 @@ services:
         MONGO_INITDB_ROOT_USERNAME: admin
         MONGO_INITDB_ROOT_PASSWORD: "12345"
         MONGO_INITDB_DATABASE: clients
+        MONGODB_URL: mongodb://admin:12345@mongodb:27017/clients
     ports:
         - 27017:27017
     volumes:
         - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbit
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_DEFAULT_VHOST: 'vhost'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - rabbitmq_net
+
+
+networks:
+  rabbitmq_net:
+    driver: bridge

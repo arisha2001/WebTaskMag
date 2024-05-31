@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using ClientServer.Shared;
 namespace ClientServer.Server.Services
 {
-    public class UserService{
+    public class UserService {
         private IMongoCollection<User> _users;
         public UserService(IConfiguration configuration)
         {
